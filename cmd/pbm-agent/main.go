@@ -50,7 +50,6 @@ func main() {
 }
 
 func runAgent(mongoURI string) error {
-	mongoURI = "mongodb://" + strings.Replace(mongoURI, "mongodb://", "", 1)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
