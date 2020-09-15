@@ -91,7 +91,6 @@ type PBM struct {
 // In the sharded cluster both agents and ctls should have a connection to ConfigServer replica set in order to communicate via PBM collections.
 // If agent's or ctl's local node is not a member of CongigServer, after discovering current topology connection will be established to ConfigServer.
 func New(ctx context.Context, uri, appName string) (*PBM, error) {
-	uri = "mongodb://" + strings.Replace(uri, "mongodb://", "", 1)
 
 	client, err := connect(ctx, uri, appName)
 	if err != nil {
