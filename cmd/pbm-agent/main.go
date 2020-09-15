@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/alecthomas/kingpin"
 	"github.com/pkg/errors"
