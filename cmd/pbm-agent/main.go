@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"strings"
 
 	"github.com/alecthomas/kingpin"
 	"github.com/pkg/errors"
@@ -50,7 +49,6 @@ func main() {
 }
 
 func runAgent(mongoURI string) error {
-	mongoURI = "mongodb://" + strings.Replace(mongoURI, "mongodb://", "", 1)
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
