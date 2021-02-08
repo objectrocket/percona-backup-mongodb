@@ -18,7 +18,9 @@ define ENVS_STATIC
 	CGO_ENABLED=$(CGO_ENABLED)
 endef
 
-BUILD_FLAGS=-mod=vendor -tags gssapi
+#TODO (jcru) Could not figure out how to compile this without CGO.  We don't need gssapi support.
+#BUILD_FLAGS=-mod=vendor -tags gssapi
+BUILD_FLAGS=-mod=vendor
 versionpath?=github.com/percona/percona-backup-mongodb/version
 LDFLAGS= -X $(versionpath).gitCommit=$(GITCOMMIT) -X $(versionpath).gitBranch=$(GITBRANCH) -X $(versionpath).buildTime=$(BUILDTIME) -X $(versionpath).version=$(VERSION)
 LDFLAGS_STATIC=$(LDFLAGS) -extldflags "-static"
