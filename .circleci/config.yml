@@ -1,0 +1,135 @@
+version: 2.1
+
+references:
+  platform-docker: &docker
+    docker:
+    - image: objectrocket/platform-cicd:latest
+      auth:
+        username: ${DOCKER_USERNAME}
+        password: ${DOCKER_PASSWORD}
+  # This is used to update the helm charts on clusters
+  context-to-use: &context-to-use
+    context: objectrocket-shared
+  objectrocket-docker-auth: &objectrocket-docker-auth
+    auth:
+      username: ${DOCKER_USERNAME}
+      password: ${DOCKER_PASSWORD}
+
+orbs:
+  aws-cli: circleci/aws-cli@0.1.13
+
+jobs:
+  test:
+    docker:
+    - <<: *objectrocket-docker-auth
+      image: circleci/golang:1.13
+    steps:
+    - checkout
+    - run:
+        name: install dependencies
+        command: make dependencies
+    - run:
+        name: run tests
+        command: make test
+  lint:
+    docker:
+    - <<: *objectrocket-docker-auth
+      image: circleci/golang:1.13
+    steps:
+    - checkout
+    - run:
+        name: install golangci-lint
+        command: curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.38.0
+    - run:
+        name: lint
+        command: make lint
+  create-release:
+    <<: *docker
+    steps:
+    - add_ssh_keys:
+        fingerprints:
+        - 16:d0:e3:56:a6:14:8c:7d:dd:94:65:f3:3e:dc:7e:0e       # Search for CircleCI SSH key on 1Pass, and Add it to your CircleCI Project, The fingerprint should match this one
+    - checkout
+    - run:
+        name: create new release
+        command: |
+          ~/ci-scripts/release-it.sh
+  build:
+    docker:
+    - <<: *objectrocket-docker-auth
+      image: circleci/golang:1.13
+    steps:
+    - checkout
+    - run:
+        name: install and run goreleaser (build only)
+        command: curl -sL https://git.io/goreleaser | bash -s build --snapshot
+  build-and-push:
+    docker:
+    - <<: *objectrocket-docker-auth
+      image: circleci/golang:1.13
+    steps:
+    - checkout
+    - aws-cli/install
+    - run:
+        name: install and run goreleaser (build and push)
+        command: curl -sL https://git.io/goreleaser | bash
+
+workflows:
+  version: 2
+  # runs on all commits
+  build_and_test:
+    jobs:
+    - lint:
+        <<: *context-to-use
+        filters:
+          branches:
+            ignore: master
+    - test:
+        <<: *context-to-use
+        filters:
+          branches:
+            ignore: master
+    - build:
+        <<: *context-to-use
+        filters:
+          branches:
+            ignore: master
+  release:
+    jobs:
+    - create-release:
+        context: platform-eng
+        filters:
+          branches:
+            only: master
+  test_build_push:
+    jobs:
+    - lint:
+        <<: *context-to-use
+        filters:
+          tags:
+            only:
+            - /^[0-9]+.[0-9]+.[0-9]+$/
+            - /^[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/
+          branches:
+            ignore: /.*/
+    - test:
+        <<: *context-to-use
+        filters:
+          tags:
+            only:
+            - /^[0-9]+.[0-9]+.[0-9]+$/
+            - /^[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/
+          branches:
+            ignore: /.*/
+    - build-and-push:
+        context: platform-eng # Use the platform-eng context so goreleaser has the github token.
+        requires:
+        - lint
+        - test
+        filters:
+          tags:
+            only:
+            - /^[0-9]+.[0-9]+.[0-9]+$/
+            - /^[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/
+          branches:
+            ignore: /.*/
