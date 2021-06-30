@@ -3,7 +3,7 @@ version: 2.1
 references:
   platform-docker: &docker
     docker:
-      - image: objectrocket/cicd:slim
+      - image: objectrocket/platform-cicd:latest
         auth:
           username: ${DOCKER_USERNAME}
           password: ${DOCKER_PASSWORD}
