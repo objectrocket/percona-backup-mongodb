@@ -26,9 +26,6 @@ jobs:
     steps:
     - checkout
     - run:
-        name: install dependencies
-        command: make dependencies
-    - run:
         name: run tests
         command: make test
 
