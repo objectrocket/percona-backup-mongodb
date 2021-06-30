@@ -42,14 +42,14 @@ jobs:
   create-release:
     <<: *docker
     steps:
-      - add_ssh_keys:
-          fingerprints:
-            - 16:d0:e3:56:a6:14:8c:7d:dd:94:65:f3:3e:dc:7e:0e
       - checkout
       - run:
           name: Setup environment variables
           command: |
             echo "export RELEASE_IT_CONFIG_FILE=$HOME/release-it.yml" >> $BASH_ENV
+            echo $(ls $HOME/)
+            echo $(pwd)
+            source $BASH_ENV
       - run:
           name: Create new release
           command: |
