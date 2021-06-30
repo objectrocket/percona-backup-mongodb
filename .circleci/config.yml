@@ -48,6 +48,7 @@ jobs:
           command: |
             echo "export RELEASE_IT_CONFIG_FILE=$HOME/release-it.yml" >> $BASH_ENV
             echo $(ls $HOME/)
+            echo $(ls $HOME/project)
             echo $(pwd)
             source $BASH_ENV
       - run:
