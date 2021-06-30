@@ -28,6 +28,8 @@ LDFLAGS_TESTS_BUILD=$(LDFLAGS) -X github.com/percona/percona-backup-mongodb/pbm/
 
 test:
 	MONGODB_VERSION=$(MONGO_TEST_VERSION) e2e-tests/run-all
+ci-test:
+	go test ./...
 
 build: build-pbm build-agent build-stest
 build-pbm:

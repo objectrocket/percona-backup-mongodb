@@ -27,7 +27,7 @@ jobs:
     - checkout
     - run:
         name: run tests
-        command: make test
+        command: make ci-test
 
   build:
     docker:
