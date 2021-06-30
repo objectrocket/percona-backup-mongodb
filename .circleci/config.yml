@@ -86,7 +86,8 @@ workflows:
           filters:
             tags:
               only:
-                - /^v[0-9]+.[0-9]+.[0-9]+$/
+                - /^v*[0-9]+.[0-9]+.[0-9]+$/
+                - /^v*[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/
             branches:
               ignore: /.*/
       - build:
@@ -96,7 +97,8 @@ workflows:
           filters:
             tags:
               only:
-                - /^v[0-9]+.[0-9]+.[0-9]+$/
+                - /^v*[0-9]+.[0-9]+.[0-9]+$/
+                - /^v*[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/
             branches:
               ignore: /.*/
       - create-release:
@@ -106,6 +108,7 @@ workflows:
           filters:
             tags:
               only:
-                - /^v[0-9]+.[0-9]+.[0-9]+$/
+                - /^v*[0-9]+.[0-9]+.[0-9]+$/
+                - /^v*[0-9]+.[0-9]+.[0-9]+-rc[0-9]+$/
             branches:
               ignore: /.*/
