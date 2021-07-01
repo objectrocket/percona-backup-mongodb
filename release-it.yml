@@ -1,3 +1,5 @@
 ---
 github:
   release: true
+  preRelease: true
+  assets: "bin/pbm"

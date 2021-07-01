@@ -75,7 +75,7 @@ workflows:
           context: platform-eng
           filters:
             branches:
-              only: pbm-build-release  # TODO: Change to master
+              only: master
 
   test_build_push:
     jobs:
@@ -103,6 +103,7 @@ workflows:
           context: platform-eng
           requires:
             - test
+            - build
           filters:
             tags:
               only:
