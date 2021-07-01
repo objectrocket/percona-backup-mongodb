@@ -80,8 +80,8 @@ To build the project (from the project dir):
 
 .. code-block:: bash
 
-   $ go get -d github.com/percona/percona-backup-mongodb
-   $ cd "$(go env GOPATH)/src/github.com/percona/percona-backup-mongodb"
+   $ go get -d github.com/objectrocket/percona-backup-mongodb
+   $ cd "$(go env GOPATH)/src/github.com/objectrocket/percona-backup-mongodb"
    $ make build
 
 After :program:`make` completes, you can find |pbm.app| and |pbm-agent| binaries

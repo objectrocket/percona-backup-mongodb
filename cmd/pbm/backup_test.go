@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/percona/percona-backup-mongodb/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
 )
 
 func TestBcpMatchCluster(t *testing.T) {

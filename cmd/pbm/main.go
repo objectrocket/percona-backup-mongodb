@@ -16,9 +16,9 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"gopkg.in/yaml.v2"
 
-	"github.com/percona/percona-backup-mongodb/pbm"
-	plog "github.com/percona/percona-backup-mongodb/pbm/log"
-	"github.com/percona/percona-backup-mongodb/version"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
+	plog "github.com/objectrocket/percona-backup-mongodb/pbm/log"
+	"github.com/objectrocket/percona-backup-mongodb/version"
 )
 
 var (

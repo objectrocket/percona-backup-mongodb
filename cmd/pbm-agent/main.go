@@ -11,9 +11,9 @@ import (
 	"github.com/alecthomas/kingpin"
 	"github.com/pkg/errors"
 
-	"github.com/percona/percona-backup-mongodb/agent"
-	"github.com/percona/percona-backup-mongodb/pbm"
-	"github.com/percona/percona-backup-mongodb/version"
+	"github.com/objectrocket/percona-backup-mongodb/agent"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/version"
 )
 
 func main() {

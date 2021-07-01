@@ -7,9 +7,9 @@ import (
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
 
-	"github.com/percona/percona-backup-mongodb/pbm/log"
-	"github.com/percona/percona-backup-mongodb/pbm/storage"
-	"github.com/percona/percona-backup-mongodb/version"
+	"github.com/objectrocket/percona-backup-mongodb/pbm/log"
+	"github.com/objectrocket/percona-backup-mongodb/pbm/storage"
+	"github.com/objectrocket/percona-backup-mongodb/version"
 )
 
 const StorInitFile = ".pbm.init"

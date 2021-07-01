@@ -5,8 +5,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/percona/percona-backup-mongodb/pbm"
-	plog "github.com/percona/percona-backup-mongodb/pbm/log"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
+	plog "github.com/objectrocket/percona-backup-mongodb/pbm/log"
 )
 
 func logs(cn *pbm.PBM) {

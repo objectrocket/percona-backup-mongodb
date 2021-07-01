@@ -10,7 +10,7 @@ import (
 
 	"github.com/docker/docker/api/types"
 	docker "github.com/docker/docker/client"
-	"github.com/percona/percona-backup-mongodb/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
 	"github.com/pkg/errors"
 )
 

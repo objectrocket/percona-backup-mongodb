@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/percona/percona-backup-mongodb/e2e-tests/pkg/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/e2e-tests/pkg/pbm"
 )
 
 type Backuper interface {

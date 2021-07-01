@@ -7,8 +7,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
-	"github.com/percona/percona-backup-mongodb/pbm/log"
-	"github.com/percona/percona-backup-mongodb/pbm/storage"
+	"github.com/objectrocket/percona-backup-mongodb/pbm/log"
+	"github.com/objectrocket/percona-backup-mongodb/pbm/storage"
 )
 
 // DeleteBackup deletes backup with the given name from the current storage
