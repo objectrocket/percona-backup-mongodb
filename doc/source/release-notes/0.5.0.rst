@@ -16,7 +16,7 @@ actions.
 
 The project was inspired by (and intends to replace) the
 `Percona-Lab/mongodb_consistent_backup tool
-<https://github.com/Percona-Lab/mongodb_consistent_backup>`_.
+<https://github.com/objectrocket-Lab/mongodb_consistent_backup>`_.
 
 |pbm| supports |psmdb| or |mongodb| Community Server version 3.6 or higher with
 |mongodb| replication enabled. Binaries for the supported platforms as well as

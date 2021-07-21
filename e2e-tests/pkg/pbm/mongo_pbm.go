@@ -8,7 +8,7 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/percona/percona-backup-mongodb/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
 )
 
 type MongoPBM struct {

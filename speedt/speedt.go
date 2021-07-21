@@ -14,9 +14,9 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/percona/percona-backup-mongodb/pbm"
-	"github.com/percona/percona-backup-mongodb/pbm/backup"
-	"github.com/percona/percona-backup-mongodb/pbm/storage"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/pbm/backup"
+	"github.com/objectrocket/percona-backup-mongodb/pbm/storage"
 )
 
 func init() {

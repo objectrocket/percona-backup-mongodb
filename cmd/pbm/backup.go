@@ -11,8 +11,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 
-	"github.com/percona/percona-backup-mongodb/pbm"
-	plog "github.com/percona/percona-backup-mongodb/pbm/log"
+	"github.com/objectrocket/percona-backup-mongodb/pbm"
+	plog "github.com/objectrocket/percona-backup-mongodb/pbm/log"
 )
 
 func backup(cn *pbm.PBM, bcpName, compression string) (string, error) {

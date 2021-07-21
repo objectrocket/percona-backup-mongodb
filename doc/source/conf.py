@@ -147,7 +147,7 @@ html_theme_path = ['.', './percona-theme']
 # Redirect info for Edit on Github link
 html_context = {
     'repo_name': '/percona/percona-backup-mongodb',
-    'repo_url': 'https://github.com/percona/percona-backup-mongodb',
+    'repo_url': 'https://github.com/objectrocket/percona-backup-mongodb',
     'edit_uri': 'edit/main/doc/source'
 }
 

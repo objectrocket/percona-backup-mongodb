@@ -7,10 +7,10 @@ import (
 	"sync"
 	"time"
 
-	pbmt "github.com/percona/percona-backup-mongodb/pbm"
+	pbmt "github.com/objectrocket/percona-backup-mongodb/pbm"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 
-	"github.com/percona/percona-backup-mongodb/e2e-tests/pkg/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/e2e-tests/pkg/pbm"
 )
 
 func (c *Cluster) PITRbasic() {

@@ -5,10 +5,10 @@ import (
 	"log"
 	"time"
 
-	pbmt "github.com/percona/percona-backup-mongodb/pbm"
+	pbmt "github.com/objectrocket/percona-backup-mongodb/pbm"
 	"github.com/pkg/errors"
 
-	"github.com/percona/percona-backup-mongodb/e2e-tests/pkg/pbm"
+	"github.com/objectrocket/percona-backup-mongodb/e2e-tests/pkg/pbm"
 )
 
 type Cluster struct {
@@ -150,7 +150,7 @@ func (c *Cluster) BackupWaitDone(bcpName string) {
 	}
 
 	// locks being released NOT immediately after the backup succeed
-	// see https://github.com/percona/percona-backup-mongodb/blob/v1.1.3/agent/agent.go#L128-L143
+	// see https://github.com/objectrocket/percona-backup-mongodb/blob/v1.1.3/agent/agent.go#L128-L143
 	needToWait := pbmt.WaitBackupStart + time.Second - time.Since(ts)
 	if needToWait > 0 {
 		log.Printf("waiting for the lock to be released for %s", needToWait)
