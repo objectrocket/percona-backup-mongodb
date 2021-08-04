@@ -10,7 +10,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func runBackup(cn *PBM, bcpName, compression string) (string, error) {
+func RunBackup(cn *PBM, bcpName, compression string) (string, error) {
 	locks, err := cn.GetLocks(&LockHeader{})
 	if err != nil {
 		log.Println("get locks", err)
