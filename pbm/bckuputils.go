@@ -10,13 +10,43 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 )
 
-func RunBackup(cn *PBM, bcpName, compression string) (string, error) {
-	locks, err := cn.GetLocks(&LockHeader{})
+// Custom error when no snapshots are found
+type NoSnapshotFoundError struct {
+	Reason string
+}
+
+func (c *NoSnapshotFoundError) Error() string {
+	return c.Reason
+}
+
+func IsPitrEnabled(pbmClient *PBM) (*bool, error) {
+	status, err := pbmClient.IsPITR()
+	if err != nil {
+		log.Fatalf("Error: Unable to check PITR status: %v", err)
+		return nil, err
+	}
+	return &status, nil
+}
+
+func LastPitrSnapshot(pbmClient *PBM) (*BackupMeta, error) {
+	bcps, err := pbmClient.BackupsList(1) // Query only the latest snaspshot
+	if err != nil {
+		log.Fatalln("Error: unable to get snapshot list:", err)
+		return nil, err
+	}
+	if len(bcps) == 0 {
+		return nil, &NoSnapshotFoundError{Reason: "No snapshots found."}
+	}
+	return &bcps[0], nil
+}
+
+func RunBackup(pbmclient *PBM, bcpName, compression string) (string, error) {
+	locks, err := pbmclient.GetLocks(&LockHeader{})
 	if err != nil {
 		log.Println("get locks", err)
 	}
 
-	ts, err := cn.ClusterTime()
+	ts, err := pbmclient.ClusterTime()
 	if err != nil {
 		return "", errors.Wrap(err, "read cluster time")
 	}
@@ -29,7 +59,7 @@ func RunBackup(cn *PBM, bcpName, compression string) (string, error) {
 		}
 	}
 
-	cfg, err := cn.GetConfig()
+	cfg, err := pbmclient.GetConfig()
 	if err != nil {
 		if errors.Is(err, mongo.ErrNoDocuments) {
 			return "", errors.New("no store set. Set remote store with <pbm store set>")
@@ -37,7 +67,7 @@ func RunBackup(cn *PBM, bcpName, compression string) (string, error) {
 		return "", errors.Wrap(err, "get remote-store")
 	}
 
-	err = cn.SendCmd(Cmd{
+	err = pbmclient.SendCmd(Cmd{
 		Cmd: CmdBackup,
 		Backup: BackupCmd{
 			Name:        bcpName,
@@ -50,7 +80,7 @@ func RunBackup(cn *PBM, bcpName, compression string) (string, error) {
 
 	ctx, cancel := context.WithTimeout(context.Background(), WaitBackupStart)
 	defer cancel()
-	err = waitForBcpStatus(ctx, cn, bcpName)
+	err = waitForBcpStatus(ctx, pbmclient, bcpName)
 	if err != nil {
 		return "", err
 	}
@@ -72,7 +102,7 @@ func RunBackup(cn *PBM, bcpName, compression string) (string, error) {
 	return storeString, nil
 }
 
-func waitForBcpStatus(ctx context.Context, cn *PBM, bcpName string) error {
+func waitForBcpStatus(ctx context.Context, pbmclient *PBM, bcpName string) error {
 	tk := time.NewTicker(time.Second * 1)
 	defer tk.Stop()
 	var err error
@@ -81,7 +111,7 @@ func waitForBcpStatus(ctx context.Context, cn *PBM, bcpName string) error {
 		select {
 		case <-tk.C:
 			fmt.Print(".")
-			bmeta, err = cn.GetBackupMeta(bcpName)
+			bmeta, err = pbmclient.GetBackupMeta(bcpName)
 			if err != nil {
 				return errors.Wrap(err, "get backup metadata")
 			}
