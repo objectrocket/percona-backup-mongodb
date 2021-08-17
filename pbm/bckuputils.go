@@ -15,17 +15,17 @@ type NoSnapshotFoundError struct {
 	Reason string
 }
 
+// Custom error when no snapshots are found
+type OperationInProgressError struct {
+	Reason string
+}
+
 func (c *NoSnapshotFoundError) Error() string {
 	return c.Reason
 }
 
-func IsPitrEnabled(pbmClient *PBM) (*bool, error) {
-	status, err := pbmClient.IsPITR()
-	if err != nil {
-		log.Fatalf("Error: Unable to check PITR status: %v", err)
-		return nil, err
-	}
-	return &status, nil
+func (c *OperationInProgressError) Error() string {
+	return c.Reason
 }
 
 func LastPitrSnapshot(pbmClient *PBM) (*BackupMeta, error) {
@@ -55,7 +55,7 @@ func RunBackup(pbmclient *PBM, bcpName, compression string) (string, error) {
 	// But if there is some stale lock leave it for agents to deal with.
 	for _, l := range locks {
 		if l.Heartbeat.T+StaleFrameSec >= ts.T && l.Type != CmdPITR {
-			return "", errors.Errorf("another operation in progress, %s/%s [%s/%s]", l.Type, l.OPID, l.Replset, l.Node)
+			return "", &OperationInProgressError{Reason: fmt.Sprintf("another operation in progress, %s/%s [%s/%s]", l.Type, l.OPID, l.Replset, l.Node)}
 		}
 	}
 
